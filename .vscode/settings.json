@@ -1,0 +1,7 @@
+{
+  "terminal.integrated.env.windows": {
+    "SAMP_PATH": "F:/samp-gamemode-generic",
+    "PAWN_COMPILER": "F:/samp-gamemode-generic/qawno/pawncc.exe",
+    "GAME_MODE": "F:/samp-gamemode-generic/gamemodes/run.pwn"
+  }
+}

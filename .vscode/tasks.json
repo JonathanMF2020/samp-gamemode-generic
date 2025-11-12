@@ -1,0 +1,34 @@
+{
+  "version": "2.0.0",
+  "options": {
+    "shell": {
+      "executable": "cmd.exe",
+      "args": ["/d", "/c"]
+    }
+  },
+  "tasks": [
+    {
+      "label": "build-normal",
+      "type": "shell",
+      "command": "${workspaceFolder}\\qawno\\pawncc.exe",
+      "args": [
+        "${workspaceFolder}\\gamemodes\\run.pwn",
+        "-Dgamemodes",
+        "-;+",
+        "-(+",
+        "-d3"
+      ],
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "isBackground": false,
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated",
+        "echo": true
+      },
+      "problemMatcher": "$pawncc"
+    }
+  ]
+}
