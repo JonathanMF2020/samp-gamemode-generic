@@ -1,8 +1,8 @@
 #include <open.mp>
 
-//Libs
-#include <YSI-Includes\YSI_Coding\y_hooks>
 
+//Libs
+#include <a_mysql>
 // Configuration
 #include "../config/const.pwn"
 #include "../config/callback.pwn"

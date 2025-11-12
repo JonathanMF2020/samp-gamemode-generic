@@ -1,3 +1,3 @@
-#define function(%0) \
-    forward %0(); \
-    public %0()
+#define function%0(%1) \
+	forward %0(%1); \
+	public %0(%1)

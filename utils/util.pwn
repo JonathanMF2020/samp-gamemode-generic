@@ -11,3 +11,7 @@ stock CountChars(const string[], const ch[2]) {
     }
     return found;
 }
+
+stock CalculateMs(tickStart, tickEnd){
+    return tickEnd - tickStart;
+}
