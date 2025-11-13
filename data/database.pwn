@@ -18,6 +18,7 @@ stock CleanUser(playerid){
     MemSet(UserInfo[playerid][username], 0, MAX_PLAYER_NAME);
     MemSet(UserInfo[playerid][createdAt], 0, 45);
     MemSet(UserInfo[playerid][lastAt], 0, 45);
+    MemSet(UserInfo[playerid][lastVersion], 0, 20);
     UserInfo[playerid][x] = 0.000000;
     UserInfo[playerid][y] = 0.000000;
     UserInfo[playerid][z] = 0.000000;
