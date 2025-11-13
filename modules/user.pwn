@@ -9,9 +9,12 @@ function SuccessLoadAccount(playerid){
 }
 
 stock MigrationPlayer(playerid){
-    printf("%s - %s",UserInfo[playerid][lastVersion], ServerInfo[version]);
+
     if(strcmp(UserInfo[playerid][lastVersion], ServerInfo[version]) != 0){
-        //TODO: This code is to update database if is neccesary in breaking changes
+        if (strcmp(ServerInfo[version], "0.0.2") == 0)
+        {
+            printf("[Migration] Aplicando cambios para la versión 0.0.2 a la cuenta [%s].", UserInfo[playerid][username]);
+        }
         format(stringBuffer, sizeof stringBuffer, "Se ha actualizado el server, usa el comando "COMMAND"/notas", ServerInfo[version]);
         SendInfo(playerid, stringBuffer);
         UpdateAccountString(playerid, "lastVersion", ServerInfo[version]);
