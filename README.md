@@ -15,7 +15,7 @@ Este es el listado de tareas técnicas de programación (Scripting Pawn) para el d
 ## ?? 2. Sistema de Cuentas y Personaje
 
 - [X] Implementar la función de registro y login seguro (contraseñas *hasheadas*).
-- [] Desarrollar el sistema de guardado de datos del personaje (posición, salud, dinero).
+- [ ] Desarrollar el sistema de guardado de datos del personaje (posición, salud, dinero).
 - [ ] Crear la interfaz para la selección de *skin* y la apariencia inicial.
 - [ ] Scripting del sistema Anti-Cheat básico (anti-fly, anti-teleport).
 
