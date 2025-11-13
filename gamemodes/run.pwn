@@ -3,11 +3,16 @@
 //Libs
 #include <a_mysql>
 #include <YSI/YSI_Coding/y_va>
-//Enums
-#include "../data/database.pwn"
+#include <samp_bcrypt>
+#include <YSI/YSI_Data/y_iterate>
+
 // Configuration
 #include "../config/const.pwn"
+#include "../config/pvar.pwn"
 #include "../config/macros.pwn"
+
+//Enums
+#include "../data/database.pwn"
 
 // Utilities
 #include "../utils/hooks.pwn"
@@ -26,7 +31,7 @@
 
 main()
 {
-    print("\n----------------------------------");
+    print("----------------------------------\n");
     print(" Develop by: Flopjack");
     print("----------------------------------\n");
 }

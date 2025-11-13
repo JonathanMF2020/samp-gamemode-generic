@@ -21,3 +21,11 @@ function ConnectServer()
     #endif
     return 1;
 }
+
+
+function DisconnectServer()
+{
+    mysql_close(database);
+    printf("[Database] Desconectado.");
+    return 1;
+}

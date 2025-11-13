@@ -96,7 +96,8 @@
     "password": "",
     "pawn": {
         "legacy_plugins": [
-            "mysql"
+            "mysql",
+            "samp_bcrypt"
         ],
         "main_scripts": [
             "run 1"
