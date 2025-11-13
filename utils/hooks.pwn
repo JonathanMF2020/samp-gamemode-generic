@@ -2,6 +2,7 @@
 
 public OnGameModeInit(){
     ConnectServer();
+    LoadServer();
     return 1;
 }
 
@@ -9,17 +10,22 @@ public OnGameModeExit(){
     foreach (new playerid : Player){
         CleanUser(playerid);
     }
+    CleanServer();
     DisconnectServer();
     return 1;
 }
 
 public OnPlayerConnect(playerid){
+    if(ServerInfo[status] == SERVER_STATUS_ERROR){
+        return SendError(playerid,"Servidor en mantenimiento");
+    }
     format(UserInfo[playerid][username], MAX_PLAYER_NAME+1, "%s", GetPlayerNameEx(playerid));
     CheckRegister(playerid);
     return 1;
 }
 
 public OnPlayerDisconnect(playerid, reason){
+    SaveAccount(playerid);
     CleanUser(playerid);
     return 1;
 }

@@ -1,6 +1,8 @@
 #define WHITE               "{FFFFFF}"
 #define PRIMARY             "{8EE7FF}"
 #define ERROR               "{FF3B30}"
+#define INFO                "{C8C8C8}"
+#define COMMAND             "{00FFFF}"
 // Mysql Credentials
 #define MYSQL_DEBUG         true
 #define MYSQL_HOST          "localhost"
@@ -11,10 +13,21 @@
 #define SERVER_NAME         "Aknolwedge Roleplay"
 // Db tables
 #define TABLE_USERS         "users"
+#define TABLE_SERVER        "server"
 //General
 #define HASH_SUCCESS        1
 #define HASH_ERROR          0
 #define HASH_UNKNOW         -1
+#define SPAWN_X             1548.5100
+#define SPAWN_Y             -1687.1600
+#define SPAWN_Z             13.5900
+#define SPAWN_A             90.0000
+#define SPAWN_INTERIOR      0
+#define SPAWN_VIRTUAL       0
+#define SERVER_STATUS_SUCCESS    1
+#define SERVER_STATUS_ERROR      2
+#define SERVER_STATUS_UNKNOWN    0
+
 
 
 
@@ -24,4 +37,5 @@ enum{
 }
 
 new MySQL:database;
-new stringScapeDatabase[256];
+new stringScapeDatabase[512];
+new stringBuffer[128];

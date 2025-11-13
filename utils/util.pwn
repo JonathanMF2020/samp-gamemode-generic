@@ -51,7 +51,50 @@ stock IsStringLengthValid(const text[], minLen, maxLen)
 }
 
 stock SendError(playerid, const text[]){
-    new string[128];
-    format(string, sizeof string, ERROR"[Error]"WHITE" %s", text);
-    return SendClientMessage(playerid, -1, string);
+    format(stringBuffer, sizeof stringBuffer, ERROR"[Error]"WHITE" %s", text);
+    return SendClientMessage(playerid, -1, stringBuffer);
+}
+
+stock SendInfo(playerid, const text[]){
+    format(stringBuffer, sizeof stringBuffer, INFO"[Info]"WHITE" %s", text);
+    return SendClientMessage(playerid, -1, stringBuffer);
+}
+
+
+stock SetPlayerPosEx(playerid, Float: spawnx, Float: spawny, Float: spawnz, interior = 0, virtualworld = 0){
+    SetPlayerPos(playerid, spawnx, spawny, spawnz);
+    SetPlayerFacingAngle(playerid, interior); 
+    SetPlayerInterior(playerid, virtualworld);
+}
+
+stock FormatDateString(output[], size)
+{
+    new year, month, day;
+    new hour, minute, second;
+    getdate(year, month, day); 
+    gettime(hour, minute, second); 
+    new const meses[13][] =
+    {
+        " ",          
+        "Enero",      
+        "Febrero",    
+        "Marzo",      
+        "Abril",      
+        "Mayo",       
+        "Junio",      
+        "Julio",      
+        "Agosto",     
+        "Septiembre", 
+        "Octubre",    
+        "Noviembre",  
+        "Diciembre"   
+    };
+    format(output, size, "%02d de %s del %d", day, meses[month], year);
+    return 1;
+}
+
+stock KickAll(){
+    foreach (new playerid : Player){
+        Kick(playerid);
+    }
 }

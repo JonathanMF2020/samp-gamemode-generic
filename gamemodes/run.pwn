@@ -17,6 +17,7 @@
 // Utilities
 #include "../utils/hooks.pwn"
 #include "../utils/mysql/users_util.pwn"
+#include "../utils/mysql/server_util.pwn"
 #include "../utils/util.pwn"
 
 // Modules
