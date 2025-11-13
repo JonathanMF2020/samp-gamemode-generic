@@ -16,5 +16,8 @@ function ConnectServer()
         printf("[Database] Connected: %d ms", CalculateMs(tickStart,tickEnd));
 
     }
+    #if MYSQL_DEBUG
+        mysql_log(ALL);
+    #endif
     return 1;
 }

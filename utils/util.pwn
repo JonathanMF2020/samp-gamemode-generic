@@ -27,23 +27,6 @@ stock ShowDialog(playerid, dialogid){
     }
 }
 
-stock TQuery(MySQL:handle, const query[], const callback[] = "", const format[] = "", {Float,_}:...)
-{
-    #if MYSQL_DEBUG
-        printf("[Database - Debug] Execute: %s", query);
-    #endif
-
-    if (format[0])
-    {
-        mysql_tquery(handle, query, callback, format, va_start<5>);
-    }
-    else
-    {
-        mysql_tquery(handle, query, callback);
-    }
-}
-
-
 stock GetPlayerNameEx(playerid)
 {
     new name[MAX_PLAYER_NAME + 1];
