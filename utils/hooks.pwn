@@ -65,3 +65,25 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
     }
     return 0;
 }
+
+public OnPlayerCommandReceived(playerid, cmd[], params[], flags)
+{
+  if (!(flags & AdminPermissions[playerid]))
+  {
+    SendError(playerid,"No tienes permiso para usar este comando");
+    return 0;
+  }
+
+  return 1;
+}
+
+public OnPlayerCommandPerformed(playerid, cmd[], params[], result, flags)
+{
+  if (result == -1)
+  {
+    SendError(playerid,"Comando desconocido");
+    return 0;
+  }
+
+  return 1;
+}

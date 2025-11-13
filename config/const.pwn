@@ -2,7 +2,7 @@
 #define PRIMARY             "{8EE7FF}"
 #define ERROR               "{FF3B30}"
 #define INFO                "{C8C8C8}"
-#define COMMAND             "{00FFFF}"
+#define COMMANDBOLD         "{00FFFF}"
 // Mysql Credentials
 #define MYSQL_DEBUG         true
 #define MYSQL_HOST          "localhost"
@@ -35,6 +35,18 @@ enum{
     DIALOG_REGISTER,
     DIALOG_LOGIN
 }
+
+enum (<<= 1)
+{
+  CMD_ADMIN = 1, 
+  CMD_MODER_G,     // 0b00000000000000000000000000000010
+  CMD_MODER_3,   // 0b00000000000000000000000000000100
+  CMD_MODER_2,   // 0b00000000000000000000000000000100
+  CMD_MODER_1,   // 0b00000000000000000000000000000100
+  CMD_HELPER,
+  CMD_COMMON_USER  // 0b00000000000000000000000000000100
+};
+new AdminPermissions[MAX_PLAYERS];
 
 new MySQL:database;
 new stringScapeDatabase[512];

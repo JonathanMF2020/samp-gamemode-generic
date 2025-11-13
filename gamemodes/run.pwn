@@ -5,6 +5,7 @@
 #include <YSI/YSI_Coding/y_va>
 #include <samp_bcrypt>
 #include <YSI/YSI_Data/y_iterate>
+#include <Pawn.CMD>
 
 // Configuration
 #include "../config/const.pwn"

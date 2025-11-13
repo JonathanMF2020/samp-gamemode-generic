@@ -25,6 +25,7 @@ stock CleanUser(playerid){
     UserInfo[playerid][a] = 0.000000;
     UserInfo[playerid][sampInterior] = -1;
     UserInfo[playerid][sampVirtual] = -1;
+    AdminPermissions[playerid] = 0;
 }
 
 enum SERVER_ENUM{
