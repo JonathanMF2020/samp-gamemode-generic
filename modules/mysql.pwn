@@ -1,4 +1,7 @@
-function ConnectServer(){
+
+
+function ConnectServer()
+{
     new tickStart = GetTickCount();
     database = mysql_connect(MYSQL_HOST, MYSQL_USER, MYSQL_PASWORD, MYSQL_DATABASE);
     new tickEnd = GetTickCount();
@@ -13,8 +16,5 @@ function ConnectServer(){
         printf("[Database] Connected: %d ms", CalculateMs(tickStart,tickEnd));
 
     }
-
-    
-    
     return 1;
 }
