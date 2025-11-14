@@ -25,7 +25,10 @@ public OnPlayerConnect(playerid){
 }
 
 public OnPlayerDisconnect(playerid, reason){
-    SaveAccount(playerid);
+    if(GetPVarInt(playerid,T_CONNECTED) == 1){
+        SaveAccount(playerid);
+    }
+    
     CleanUser(playerid);
     return 1;
 }
@@ -56,6 +59,11 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
             new hash[BCRYPT_HASH_LENGTH];
             GetPVarString(playerid, T_PASSWORD, hash, sizeof(hash));
             bcrypt_verify(playerid, "OnPassswordVerify", inputtext, hash);
+            return 1;
+        }
+        case DIALOG_EDIT_DOOR:{
+            if(!response) return 1;
+            new dooridS = GetPVarInt(playerid, T_DOOR_ID);
         }
         default: {
             SendError(playerid, "Code 01: Ha ocurrido un error intenta mas tarde");
@@ -68,13 +76,12 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 
 public OnPlayerCommandReceived(playerid, cmd[], params[], flags)
 {
-  if (!(flags & AdminPermissions[playerid]))
-  {
-    SendError(playerid,"No tienes permiso para usar este comando");
-    return 0;
-  }
-
-  return 1;
+    if (UserInfo[playerid][admin] < flags)
+    {
+        SendError(playerid, "No tienes permiso para usar este comando");
+        return 0;
+    }
+    return 1;
 }
 
 public OnPlayerCommandPerformed(playerid, cmd[], params[], result, flags)

@@ -9,6 +9,7 @@ function MYSQL_IsServer(){
     if(rows > 0){
         cache_get_value_name(0, "hostname", ServerInfo[hostname], 45);
         cache_get_value_name(0, "version", ServerInfo[version], 20);
+        cache_get_value_name(0, "owner", ServerInfo[owner], MAX_PLAYER_NAME);
         print("[Server] Servidor cargado exitosamente");
         ServerInfo[status] = SERVER_STATUS_SUCCESS;
         SetServerInfo();

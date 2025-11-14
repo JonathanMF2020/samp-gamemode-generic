@@ -26,6 +26,13 @@ stock ShowDialog(playerid, dialogid){
         case DIALOG_LOGIN:{
             ShowPlayerDialog(playerid, dialogid, DIALOG_STYLE_PASSWORD, WHITE"Login", WHITE"Ingresa una contraseña para ingresar a "PRIMARY SERVER_NAME WHITE, "Aceptar", "Cancelar");
         }
+        case DIALOG_EDIT_DOOR:{
+            new dooridS = GetPVarInt(playerid, T_DOOR_ID);
+            new stringFormat[128];
+            new stringFull[400];
+            format(stringFormat, sizeof stringFormat, WHITE"Nombre: "COMMANDBOLD"%s(%d)"WHITE"\n", DoorInfo[dooridS][doorname], dooridS); strcat(stringFull, stringFormat);
+            ShowPlayerDialog(playerid, dialogid, DIALOG_STYLE_LIST, WHITE"Editor de puertas", stringFull, "Aceptar", "Cancelar");
+        }
         default: SendError(playerid, "Code 01: Ha ocurrido un error intenta mas tarde");
     }
 }
@@ -59,6 +66,16 @@ stock SendInfo(playerid, const text[]){
     format(stringBuffer, sizeof stringBuffer, INFO"[Info]"WHITE" %s", text);
     return SendClientMessage(playerid, -1, stringBuffer);
 }
+
+stock SendAdminChat(level,const text[]){
+    foreach (new i : Player){
+        if(UserInfo[i][admin] >= level){
+            format(stringBuffer, sizeof stringBuffer, STAFF"[Staff]"WHITE" %s", text);
+            SendClientMessage(i, -1, stringBuffer);
+        }
+    }
+}
+
 
 
 stock SetPlayerPosEx(playerid, Float: spawnx, Float: spawny, Float: spawnz, interior = 0, virtualworld = 0){
@@ -96,5 +113,52 @@ stock FormatDateString(output[], size)
 stock KickAll(){
     foreach (new playerid : Player){
         Kick(playerid);
+    }
+}
+
+stock LogAdminAction(const command_name[], admin_id, target_id, const details[])
+{
+    new 
+        timestamp[40], // Para la fecha y hora: YYYY-MM-DD HH:MM:SS
+        log_line[MAX_LOG_LENGTH], // Línea completa que se escribirá.
+        file_path[MAX_PATH]; // Ruta completa del archivo de log.
+    new year, month, day, hour, minute, second;
+    getdate(year, month, day);
+    gettime(hour, minute, second);
+    format(timestamp, sizeof(timestamp), "[%04d-%02d-%02d %02d:%02d:%02d]", 
+        year, month, day, hour, minute, second);
+    new admin_name[MAX_PLAYER_NAME], target_name[MAX_PLAYER_NAME];
+    GetPlayerName(admin_id, admin_name, sizeof(admin_name));
+    if(target_id != -1){
+        GetPlayerName(target_id, target_name, sizeof(target_name));
+        format(log_line, sizeof(log_line), "%s (ID:%d) %s %s -> %s (ID:%d) (Detalles: %s)\n",
+            timestamp,
+            admin_id, admin_name,
+            command_name,
+            target_name, target_id,
+            details
+        );
+    }else{
+        format(log_line, sizeof(log_line), "%s (ID:%d) %s %s -> (Detalles: %s)\n",
+            timestamp,
+            admin_id, admin_name,
+            command_name,
+            details
+        );
+    }
+    
+    format(file_path, sizeof(file_path), "%s%04d-%02d-%02d.log", ADMIN_LOG_PATH, year, month, day);
+    new File:file = fopen(file_path, io_append);
+    if (file)
+    {
+        fwrite(file, log_line);
+        fclose(file);
+        return 1; // Éxito
+    }
+    else
+    {
+        // Esto es un error CRÍTICO, deberías notificar al RCON o a un administrador principal.
+        printf("[ERROR LOG] No se pudo abrir/crear el archivo de log: %s", file_path);
+        return 0; // Error
     }
 }

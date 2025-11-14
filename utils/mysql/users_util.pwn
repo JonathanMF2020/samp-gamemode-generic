@@ -43,6 +43,9 @@ function OnHashDone_Register(playerid){
 
 function OnPlayerRegister(playerid){
     UserInfo[playerid][id] = cache_insert_id();
+    UserInfo[playerid][admin] = CMD_COMMON_USER;
+    UpdateAccountInt(playerid, "admin", UserInfo[playerid][admin]);
+    SetPVarInt(playerid, T_CONNECTED, 1);
     SetSpawnInfo(playerid, NO_TEAM, 1, UserInfo[playerid][x], UserInfo[playerid][y], UserInfo[playerid][z], UserInfo[playerid][a], WEAPON_SAWEDOFF, 36, WEAPON_UZI, 150, WEAPON_FIST, 0);
     SpawnPlayer(playerid);
 }
@@ -63,7 +66,8 @@ function OnPlayerRegister(playerid){
  }
 
  stock LoadAccount(playerid){
-    mysql_format(database,stringScapeDatabase, sizeof stringScapeDatabase, "SELECT x,y,z,a,sampInterior,sampVirtual,createdAt,lastAt,lastVersion FROM `%s` WHERE `id` = '%d' LIMIT 1", TABLE_USERS, UserInfo[playerid][id]);
+    mysql_format(database,stringScapeDatabase, sizeof stringScapeDatabase, "SELECT x,y,z,a,sampInterior,sampVirtual,createdAt,lastAt,lastVersion,admin \
+     FROM `%s` WHERE `id` = '%d' LIMIT 1", TABLE_USERS, UserInfo[playerid][id]);
     mysql_tquery(database, stringScapeDatabase, "MYSQL_IsLoading", "d", playerid);
  }
 
@@ -80,7 +84,9 @@ function OnPlayerRegister(playerid){
         cache_get_value_name(0, "createdAt", UserInfo[playerid][createdAt], 45);
         cache_get_value_name(0, "lastAt", UserInfo[playerid][lastAt], 45);
         cache_get_value_name(0, "lastVersion", UserInfo[playerid][lastVersion], 20);
+        cache_get_value_name_int(0, "admin", UserInfo[playerid][admin]);
         SuccessLoadAccount(playerid);
+        SetPVarInt(playerid, T_CONNECTED, 1);
     }else{
         SendError(playerid, "Ha ocurrido un error al intentar cargar los datos, intenta mas tarde");
         Kick(playerid);

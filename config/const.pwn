@@ -3,6 +3,7 @@
 #define ERROR               "{FF3B30}"
 #define INFO                "{C8C8C8}"
 #define COMMANDBOLD         "{00FFFF}"
+#define STAFF               "{3B82F6}"
 // Mysql Credentials
 #define MYSQL_DEBUG         true
 #define MYSQL_HOST          "localhost"
@@ -28,25 +29,34 @@
 #define SERVER_STATUS_ERROR      2
 #define SERVER_STATUS_UNKNOWN    0
 
+#define MAX_DOORS           50
+
+#define ADMIN_LOG_PATH "logs/commands/"
+#define MAX_LOG_LENGTH 256
+#define MAX_PATH 256
+
+#define NO_PERMISSION "No tienes permiso para usar este comando"
+
 
 
 
 enum{
     DIALOG_REGISTER,
-    DIALOG_LOGIN
+    DIALOG_LOGIN,
+    DIALOG_EDIT_DOOR
+
 }
 
-enum (<<= 1)
+enum
 {
-  CMD_ADMIN = 1, 
-  CMD_MODER_G,     // 0b00000000000000000000000000000010
-  CMD_MODER_3,   // 0b00000000000000000000000000000100
-  CMD_MODER_2,   // 0b00000000000000000000000000000100
-  CMD_MODER_1,   // 0b00000000000000000000000000000100
-  CMD_HELPER,
-  CMD_COMMON_USER  // 0b00000000000000000000000000000100
+    CMD_COMMON_USER,   // 0  (nivel más bajo)
+    CMD_HELPER,        // 1
+    CMD_MODER_1,       // 2
+    CMD_MODER_2,       // 3
+    CMD_MODER_3,       // 4
+    CMD_MODER_G,       // 5
+    CMD_ADMIN          // 6 (nivel más alto)
 };
-new AdminPermissions[MAX_PLAYERS];
 
 new MySQL:database;
 new stringScapeDatabase[512];

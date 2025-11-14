@@ -6,6 +6,8 @@
 #include <samp_bcrypt>
 #include <YSI/YSI_Data/y_iterate>
 #include <Pawn.CMD>
+#include <sscanf2>
+#include <file>
 
 // Configuration
 #include "../config/const.pwn"
@@ -24,6 +26,8 @@
 // Modules
 #include "../modules/mysql.pwn"
 #include "../modules/user.pwn"
+#include "../modules/door.pwn"
+#include "../modules/administration.pwn"
 
 
 
