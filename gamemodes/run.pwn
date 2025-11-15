@@ -8,6 +8,8 @@
 #include <Pawn.CMD>
 #include <sscanf2>
 #include <file>
+#include <streamer>
+#include <confirm-box>
 
 // Configuration
 #include "../config/const.pwn"
@@ -22,12 +24,15 @@
 #include "../utils/mysql/users_util.pwn"
 #include "../utils/mysql/server_util.pwn"
 #include "../utils/util.pwn"
+#include "../utils/dialog.pwn"
 
 // Modules
 #include "../modules/mysql.pwn"
 #include "../modules/user.pwn"
 #include "../modules/door.pwn"
 #include "../modules/administration.pwn"
+#include "../modules/area.pwn"
+#include "../modules/notify.pwn"
 
 
 

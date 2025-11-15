@@ -11,6 +11,13 @@ public OnGameModeExit(){
         CleanUser(playerid);
     }
     CleanServer();
+    for (new i = 0; i < MAX_DOORS; i++)
+    {
+        if (DoorInfo[i][doorcreated])
+        {
+            CleanDoor(i);
+        }
+    }
     DisconnectServer();
     return 1;
 }
@@ -33,46 +40,6 @@ public OnPlayerDisconnect(playerid, reason){
     return 1;
 }
 
-public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
-{
-    switch (dialogid)
-    {
-        case  DIALOG_REGISTER:{
-            if(response){
-                if(IsStringLengthValid(inputtext, 3, 30)){
-                    RegisterUser(playerid, inputtext);
-                }else{
-                    ShowDialog(playerid, dialogid);
-                    return SendError(playerid, "La longitud del texto debe ser entre 3 y 30 caracteres");
-                }
-            }else{
-                Kick(playerid);
-            }
-            return 1;
-        }
-        case DIALOG_LOGIN:{
-            if(!response) return Kick(playerid);
-            if(!IsStringLengthValid(inputtext, 3, 30)){
-                ShowDialog(playerid, dialogid);
-                return SendError(playerid, "La longitud del texto debe ser entre 3 y 30 caracteres");
-            }
-            new hash[BCRYPT_HASH_LENGTH];
-            GetPVarString(playerid, T_PASSWORD, hash, sizeof(hash));
-            bcrypt_verify(playerid, "OnPassswordVerify", inputtext, hash);
-            return 1;
-        }
-        case DIALOG_EDIT_DOOR:{
-            if(!response) return 1;
-            new dooridS = GetPVarInt(playerid, T_DOOR_ID);
-        }
-        default: {
-            SendError(playerid, "Code 01: Ha ocurrido un error intenta mas tarde");
-            return Kick(playerid);
-        }
-        
-    }
-    return 0;
-}
 
 public OnPlayerCommandReceived(playerid, cmd[], params[], flags)
 {
@@ -93,4 +60,22 @@ public OnPlayerCommandPerformed(playerid, cmd[], params[], result, flags)
   }
 
   return 1;
+}
+
+public OnPlayerEnterDynamicArea(playerid, areaid)
+{
+    new type = AreaData[areaid][area_type];
+    new ownerId = AreaData[areaid][area_ownerid];
+
+    switch (type)
+    {
+        case AREA_DOOR_ENTRACE:
+        {
+            OnPlayerEnterDoor(playerid, ownerId);
+        }
+        case AREA_DOOR_EXIT:{
+            OnPlayerExitDoor(playerid, ownerId);
+        }
+    }
+    return 1;
 }

@@ -16,27 +16,6 @@ stock CalculateMs(tickStart, tickEnd){
     return tickEnd - tickStart;
 }
 
-
-stock ShowDialog(playerid, dialogid){
-    switch(dialogid){
-        case DIALOG_REGISTER:{
-            ShowPlayerDialog(playerid, dialogid, DIALOG_STYLE_PASSWORD, WHITE"Registro", WHITE"Parece que aun no tienes una cuenta\n\n Ingresa una contraseña para registrarte en "PRIMARY SERVER_NAME WHITE, "Aceptar", "Cancelar");
-
-        }
-        case DIALOG_LOGIN:{
-            ShowPlayerDialog(playerid, dialogid, DIALOG_STYLE_PASSWORD, WHITE"Login", WHITE"Ingresa una contraseña para ingresar a "PRIMARY SERVER_NAME WHITE, "Aceptar", "Cancelar");
-        }
-        case DIALOG_EDIT_DOOR:{
-            new dooridS = GetPVarInt(playerid, T_DOOR_ID);
-            new stringFormat[128];
-            new stringFull[400];
-            format(stringFormat, sizeof stringFormat, WHITE"Nombre: "COMMANDBOLD"%s(%d)"WHITE"\n", DoorInfo[dooridS][doorname], dooridS); strcat(stringFull, stringFormat);
-            ShowPlayerDialog(playerid, dialogid, DIALOG_STYLE_LIST, WHITE"Editor de puertas", stringFull, "Aceptar", "Cancelar");
-        }
-        default: SendError(playerid, "Code 01: Ha ocurrido un error intenta mas tarde");
-    }
-}
-
 stock GetPlayerNameEx(playerid)
 {
     new name[MAX_PLAYER_NAME + 1];

@@ -98,7 +98,8 @@
         "legacy_plugins": [
             "mysql",
             "samp_bcrypt",
-            "sscanf"        
+            "sscanf",
+            "streamer"
         ],
         "main_scripts": [
             "run 1"

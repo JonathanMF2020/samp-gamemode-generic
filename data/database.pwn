@@ -49,7 +49,8 @@ enum DOOR_ENUM{
     doorid,
     doorname[45],
     doorpickupid,
-    DynamicText3D:doortext3d,
+    doorpickupentrace,
+    doorpickupexit,
     Float:doorentracex,
     Float:doorentracey,
     Float:doorentracez,
@@ -63,11 +64,32 @@ enum DOOR_ENUM{
     doorexitinterior,
     doorexitvirtualworld,
     doorlock,
-    bool:doorcreated
+    bool:doorcreated,
+    doorareaentrace,
+    doorareaexit
 };
 new DoorInfo[MAX_DOORS][DOOR_ENUM];
 
 stock CleanDoor(i){
-    MemSet(DoorInfo[i][doorname], 0, 45)
-    MemSet(DoorInfo[i][doorname], 0, 45)
+    MemSet(DoorInfo[i][doorname], 0, 45);
+    DoorInfo[i][doorid] = 0;
+    DoorInfo[i][doorpickupid] = 0;
+    DestroyDynamicArea(DoorInfo[i][doorareaentrace]);
+    DestroyDynamicArea(DoorInfo[i][doorareaexit]);
+    DestroyDynamicPickup(DoorInfo[i][doorpickupentrace]);
+    DestroyDynamicPickup(DoorInfo[i][doorpickupexit]);
+    DoorInfo[i][doorentracex] = 0.0;
+    DoorInfo[i][doorentracey] = 0.0;
+    DoorInfo[i][doorentracez] = 0.0;
+    DoorInfo[i][doorentracea] = 0.0;
+    DoorInfo[i][doorentraceinterior] = 0;
+    DoorInfo[i][doorentracevirtualworld] = 0;
+    DoorInfo[i][doorexitx] = 0.0;
+    DoorInfo[i][doorexity] = 0.0;
+    DoorInfo[i][doorexitz] = 0.0;
+    DoorInfo[i][doorexita] = 0.0;
+    DoorInfo[i][doorexitinterior] = 0;
+    DoorInfo[i][doorexitvirtualworld] = 0;
+    DoorInfo[i][doorlock] = 0;
+    DoorInfo[i][doorcreated] = false;
 }

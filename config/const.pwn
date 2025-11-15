@@ -29,22 +29,45 @@
 #define SERVER_STATUS_ERROR      2
 #define SERVER_STATUS_UNKNOWN    0
 
+#define RANGE_DOOR 5.0
+
 #define MAX_DOORS           50
 
 #define ADMIN_LOG_PATH "logs/commands/"
 #define MAX_LOG_LENGTH 256
 #define MAX_PATH 256
+#define MAX_DYNAMIC_AREAS 5000
 
 #define NO_PERMISSION "No tienes permiso para usar este comando"
 
+enum {
+    AREA_NONE = 0,
+    AREA_DOOR_ENTRACE,
+    AREA_DOOR_EXIT,
+};
 
-
+enum E_AREA_DATA {
+    area_type,
+    area_ownerid 
+};
+new AreaData[MAX_DYNAMIC_AREAS][E_AREA_DATA];
 
 enum{
     DIALOG_REGISTER,
     DIALOG_LOGIN,
-    DIALOG_EDIT_DOOR
+    DIALOG_EDIT_DOOR,
+    DIALOG_EDIT_DOOR_NAME,
+    DIALOG_EDIT_DOOR_ENTRACE_VIRTUAL,
+    DIALOG_EDIT_DOOR_ENTRACE_INTERIOR,
+    DIALOG_EDIT_DOOR_EXIT_VIRTUAL,
+    DIALOG_EDIT_DOOR_EXIT_INTERIOR,
+    DIALOG_EDIT_DOOR_PICKUP,
+}
 
+enum{
+    NOTIFICATION_INFO = 1,
+    NOTIFICATION_ERROR,
+    NOTIFICATION_SUCCESS,
 }
 
 enum
