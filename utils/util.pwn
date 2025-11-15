@@ -57,8 +57,9 @@ stock SendAdminChat(level,const text[]){
 
 
 
-stock SetPlayerPosEx(playerid, Float: spawnx, Float: spawny, Float: spawnz, interior = 0, virtualworld = 0){
+stock SetPlayerPosEx(playerid, Float: spawnx, Float: spawny, Float: spawnz, Float: spawna, interior = 0, virtualworld = 0){
     SetPlayerPos(playerid, spawnx, spawny, spawnz);
+    SetPlayerFacingAngle(playerid, spawna);
     SetPlayerFacingAngle(playerid, interior); 
     SetPlayerInterior(playerid, virtualworld);
 }

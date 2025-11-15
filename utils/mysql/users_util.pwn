@@ -42,12 +42,14 @@ function OnHashDone_Register(playerid){
 }
 
 function OnPlayerRegister(playerid){
+    ShowTextDrawnLoading(playerid);
     UserInfo[playerid][id] = cache_insert_id();
     UserInfo[playerid][admin] = CMD_COMMON_USER;
     UpdateAccountInt(playerid, "admin", UserInfo[playerid][admin]);
     SetPVarInt(playerid, T_CONNECTED, 1);
     SetSpawnInfo(playerid, NO_TEAM, 1, UserInfo[playerid][x], UserInfo[playerid][y], UserInfo[playerid][z], UserInfo[playerid][a], WEAPON_SAWEDOFF, 36, WEAPON_UZI, 150, WEAPON_FIST, 0);
     SpawnPlayer(playerid);
+    SetTimerEx("HideTextDrawnLoading", LOADING_DURATION, false, "%d", playerid);
 }
 
  function OnPassswordVerify(playerid, bool:success)

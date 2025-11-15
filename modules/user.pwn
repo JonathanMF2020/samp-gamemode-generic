@@ -1,11 +1,12 @@
 function SuccessLoadAccount(playerid){
-    // TODO: Add clean chat
+    ShowTextDrawnLoading(playerid);
     format(stringBuffer, sizeof stringBuffer, "Tu ultima conexion fue: %s", UserInfo[playerid][lastAt]);
     SendInfo(playerid, stringBuffer);
     MigrationPlayer(playerid);
     SetSpawnInfo(playerid, NO_TEAM, 1, UserInfo[playerid][x], UserInfo[playerid][y], UserInfo[playerid][z], UserInfo[playerid][a], WEAPON_SAWEDOFF, 36, WEAPON_UZI, 150, WEAPON_FIST, 0);
     SpawnPlayer(playerid);
     MigrationPlayer(playerid);
+    SetTimerEx("HideTextDrawnLoading", LOADING_DURATION, false, "%d", playerid);
 }
 
 stock MigrationPlayer(playerid){

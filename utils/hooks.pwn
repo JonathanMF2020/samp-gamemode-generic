@@ -3,6 +3,7 @@
 public OnGameModeInit(){
     ConnectServer();
     LoadServer();
+    LoadDoors();
     return 1;
 }
 
@@ -27,6 +28,7 @@ public OnPlayerConnect(playerid){
         return SendError(playerid,"Servidor en mantenimiento");
     }
     CreateTextDrawnNotifier(playerid);
+    CreateTextDrawnLoading(playerid);
     format(UserInfo[playerid][username], MAX_PLAYER_NAME+1, "%s", GetPlayerNameEx(playerid));
     CheckRegister(playerid);
     return 1;
@@ -67,7 +69,7 @@ public OnPlayerEnterDynamicArea(playerid, areaid)
 {
     new type = AreaData[areaid][area_type];
     new ownerId = AreaData[areaid][area_ownerid];
-
+    
     switch (type)
     {
         case AREA_DOOR_ENTRACE:

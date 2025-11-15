@@ -22,6 +22,7 @@
 #include "../utils/hooks.pwn"
 #include "../utils/mysql/users_util.pwn"
 #include "../utils/mysql/server_util.pwn"
+#include "../utils/mysql/doors_util.pwn"
 #include "../utils/util.pwn"
 #include "../utils/dialog.pwn"
 

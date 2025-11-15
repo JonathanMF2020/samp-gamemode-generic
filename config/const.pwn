@@ -15,6 +15,7 @@
 // Db tables
 #define TABLE_USERS         "users"
 #define TABLE_SERVER        "server"
+#define TABLE_DOORS         "doors"
 //General
 #define HASH_SUCCESS        1
 #define HASH_ERROR          0
@@ -29,6 +30,7 @@
 #define SERVER_STATUS_ERROR      2
 #define SERVER_STATUS_UNKNOWN    0
 #define NOTIF_DURATION 3000
+#define LOADING_DURATION 3000
 
 #define RANGE_DOOR 5.0
 

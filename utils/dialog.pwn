@@ -42,6 +42,10 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
                     DoorInfo[dooridS][doorentracey] = position[1];
                     DoorInfo[dooridS][doorentracez] = position[2];
                     DoorInfo[dooridS][doorentracea] = position[3];
+                    UpdateDoorFloat(dooridS, "entracex", DoorInfo[dooridS][doorentracex]);
+                    UpdateDoorFloat(dooridS, "entracey", DoorInfo[dooridS][doorentracey]);
+                    UpdateDoorFloat(dooridS, "entracez", DoorInfo[dooridS][doorentracez]);
+                    UpdateDoorFloat(dooridS, "entracea", DoorInfo[dooridS][doorentracea]);
                     SendInfo(playerid, "Se ha modificado la entrada de la puerta");
                     ShowDialog(playerid,DIALOG_EDIT_DOOR);
                     UpdateClientDoor(dooridS);
@@ -57,6 +61,10 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
                     DoorInfo[dooridS][doorexity] = position[1];
                     DoorInfo[dooridS][doorexitz] = position[2];
                     DoorInfo[dooridS][doorexita] = position[3];
+                    UpdateDoorFloat(dooridS, "exitx", DoorInfo[dooridS][doorexitx]);
+                    UpdateDoorFloat(dooridS, "exity", DoorInfo[dooridS][doorexity]);
+                    UpdateDoorFloat(dooridS, "exitz", DoorInfo[dooridS][doorexitz]);
+                    UpdateDoorFloat(dooridS, "exita", DoorInfo[dooridS][doorexita]);
                     SendInfo(playerid, "Se ha modificado la salida de la puerta");
                     ShowDialog(playerid,DIALOG_EDIT_DOOR);
                     UpdateClientDoor(dooridS);
@@ -66,6 +74,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
                 case 7:{
                     new dooridS = GetPVarInt(playerid, T_DOOR_ID);
                     DoorInfo[dooridS][doorlock] = !DoorInfo[dooridS][doorlock];
+                    UpdateDoorInt(dooridS, "lockDoor", DoorInfo[dooridS][doorlock]);
                     SendInfo(playerid, "Se ha modificado el seguro de la puerta");
                     ShowDialog(playerid,DIALOG_EDIT_DOOR);
                     UpdateClientDoor(dooridS);
@@ -75,9 +84,11 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
                     new dooridS = GetPVarInt(playerid, T_DOOR_ID);
                     format(stringBuffer,sizeof stringBuffer, "Ha eliminado la puerta: %s(%d)", DoorInfo[dooridS][doorname], dooridS);
                     LogAdminAction("/editarpuerta", playerid, -1, stringBuffer);
+                    DeleteDoor(dooridS);
                     CleanDoor(dooridS);
                     SendInfo(playerid, "Se ha eliminado la puerta");
                     DeletePVar(playerid, T_DOOR_ID);
+                    
                     
                 }
             }
@@ -89,6 +100,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
             }
             new dooridS = GetPVarInt(playerid, T_DOOR_ID);
             format(DoorInfo[dooridS][doorname],45,"%s", inputtext);
+            UpdateDoorString(dooridS, "name", DoorInfo[dooridS][doorname]);
             SendInfo(playerid, "Se ha modificado el nombre de la puerta");
             ShowDialog(playerid,DIALOG_EDIT_DOOR);
             return 1;
@@ -100,6 +112,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
             new dooridS = GetPVarInt(playerid, T_DOOR_ID);
             SendInfo(playerid, "Se ha modificado el virtualworld entrada de la puerta");
             DoorInfo[dooridS][doorentracevirtualworld] = strval(inputtext);
+            UpdateDoorInt(dooridS, "entracevirtualworld", DoorInfo[dooridS][doorentracevirtualworld]);
             ShowDialog(playerid,DIALOG_EDIT_DOOR);
             UpdateClientDoor(dooridS);
             return 1;
@@ -111,6 +124,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
             new dooridS = GetPVarInt(playerid, T_DOOR_ID);
             SendInfo(playerid, "Se ha modificado el interior entrada de la puerta");
             DoorInfo[dooridS][doorentraceinterior] = strval(inputtext);
+            UpdateDoorInt(dooridS, "entraceinterior", DoorInfo[dooridS][doorentraceinterior]);
             ShowDialog(playerid,DIALOG_EDIT_DOOR);
             UpdateClientDoor(dooridS);
             return 1;
@@ -122,6 +136,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
             new dooridS = GetPVarInt(playerid, T_DOOR_ID);
             SendInfo(playerid, "Se ha modificado el virtualworld salida de la puerta");
             DoorInfo[dooridS][doorexitvirtualworld] = strval(inputtext);
+            UpdateDoorInt(dooridS, "exitvirtualworld", DoorInfo[dooridS][doorexitvirtualworld]);
             ShowDialog(playerid,DIALOG_EDIT_DOOR);
             UpdateClientDoor(dooridS);
             return 1;
@@ -133,6 +148,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
             new dooridS = GetPVarInt(playerid, T_DOOR_ID);
             SendInfo(playerid, "Se ha modificado el interior salida de la puerta");
             DoorInfo[dooridS][doorexitinterior] = strval(inputtext);
+            UpdateDoorInt(dooridS, "exitinterior", DoorInfo[dooridS][doorexitinterior]);
             ShowDialog(playerid,DIALOG_EDIT_DOOR);
             UpdateClientDoor(dooridS);
             return 1;
@@ -144,6 +160,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
             new dooridS = GetPVarInt(playerid, T_DOOR_ID);
             SendInfo(playerid, "Se ha modificado el pickup de la puerta");
             DoorInfo[dooridS][doorpickupid] = strval(inputtext);
+            UpdateDoorInt(dooridS, "pickupid", DoorInfo[dooridS][doorpickupid]);
             ShowDialog(playerid,DIALOG_EDIT_DOOR);
             UpdateClientDoor(dooridS);
         }

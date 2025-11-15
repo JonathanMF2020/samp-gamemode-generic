@@ -4,6 +4,9 @@ enum E_DOOR_CONTEXT {
 };
 new DoorContext[MAX_PLAYERS][E_DOOR_CONTEXT];
 
+new bool:EnterLoad[MAX_PLAYERS] = false;
+new PlayerText: LoadingTD[MAX_PLAYERS][2];
+
 stock FindFreeDoorID()
 {
     for (new i = 0; i < MAX_DOORS; i++)
@@ -18,18 +21,21 @@ stock FindFreeDoorID()
 
 function OnPlayerEnterDoor(playerid, doorId)
 {
+  if(DoorInfo[doorId][doorcreated] == false) return 0;
   format(stringBuffer, sizeof stringBuffer, "Usa ~y~ENTER~w~ para ingresar al ~b~%s~w~.", DoorInfo[doorId][doorname]);
   ShowNotification(playerid, stringBuffer, NOTIFICATION_INFO);
   DoorContext[playerid][dc_doorid] = doorId;
   DoorContext[playerid][dc_action] = 1; // ENTER
-  
+  return 1;
 }
 
 function OnPlayerExitDoor(playerid, doorId)
 {
+  if(DoorInfo[doorId][doorcreated] == false) return 0;
   ShowNotification(playerid, "Usa ~y~ENTER~w~ para salir al exterior.", NOTIFICATION_INFO);
   DoorContext[playerid][dc_doorid] = doorId;
   DoorContext[playerid][dc_action] = 2; // EXIT
+  return 1;
 }
 
 stock UpdateClientDoor(idDoor){
@@ -89,11 +95,23 @@ stock HandleDoorAction(playerid)
 }
 
 stock EnterDoor(playerid, doorId){
-
+  
+  if(DoorInfo[doorId][doorlock] == 1) return SendError(playerid,"Se encuentra cerrado por el momento");
+  if(EnterLoad[playerid] == true) return 0;
+  ShowTextDrawnLoading(playerid);
+  SetPlayerPosEx(playerid, DoorInfo[doorId][doorexitx], DoorInfo[doorId][doorexity], 
+  DoorInfo[doorId][doorexitz], DoorInfo[doorId][doorexita], DoorInfo[doorId][doorexitinterior], DoorInfo[doorId][doorexitvirtualworld]);
+  SetTimerEx("HideTextDrawnLoading", LOADING_DURATION, false, "%d", playerid);
+  return 1;
 }
 
 stock ExitDoor(playerid, doorId){
-  
+  if(EnterLoad[playerid] == true) return 0;
+  ShowTextDrawnLoading(playerid);
+  SetPlayerPosEx(playerid, DoorInfo[doorId][doorentracex], DoorInfo[doorId][doorentracey], 
+  DoorInfo[doorId][doorentracez], DoorInfo[doorId][doorentracea], DoorInfo[doorId][doorentraceinterior], DoorInfo[doorId][doorentracevirtualworld]);
+  SetTimerEx("HideTextDrawnLoading", LOADING_DURATION, false, "%d", playerid);
+  return 1;
 }
 
 stock ClearDoorContext(playerid)
@@ -112,6 +130,71 @@ function OnPlayerLeftDoorExitArea(playerid, doorId){
   HideNotification(playerid);
 }
 
+stock CreateTextDrawnLoading(playerid){
+  LoadingTD[playerid][0] = CreatePlayerTextDraw(playerid, 317.000, -5.000, "_");
+  PlayerTextDrawLetterSize(playerid, LoadingTD[playerid][0], 0.300, 52.999);
+  PlayerTextDrawTextSize(playerid, LoadingTD[playerid][0], 12.000, 643.000);
+  PlayerTextDrawAlignment(playerid, LoadingTD[playerid][0], TEXT_DRAW_ALIGN_CENTER);
+  PlayerTextDrawColour(playerid, LoadingTD[playerid][0], -1);
+  PlayerTextDrawUseBox(playerid, LoadingTD[playerid][0], true);
+  PlayerTextDrawBoxColour(playerid, LoadingTD[playerid][0], 255);
+  PlayerTextDrawSetShadow(playerid, LoadingTD[playerid][0], 1);
+  PlayerTextDrawSetOutline(playerid, LoadingTD[playerid][0], 1);
+  PlayerTextDrawBackgroundColour(playerid, LoadingTD[playerid][0], 150);
+  PlayerTextDrawFont(playerid, LoadingTD[playerid][0], TEXT_DRAW_FONT_1);
+  PlayerTextDrawSetProportional(playerid, LoadingTD[playerid][0], true);
+
+  LoadingTD[playerid][1] = CreatePlayerTextDraw(playerid, 325.000, 20.000, "Cargando...");
+  PlayerTextDrawLetterSize(playerid, LoadingTD[playerid][1], 0.469, 2.099);
+  PlayerTextDrawAlignment(playerid, LoadingTD[playerid][1], TEXT_DRAW_ALIGN_CENTER);
+  PlayerTextDrawColour(playerid, LoadingTD[playerid][1], -1);
+  PlayerTextDrawSetShadow(playerid, LoadingTD[playerid][1], 1);
+  PlayerTextDrawSetOutline(playerid, LoadingTD[playerid][1], 1);
+  PlayerTextDrawBackgroundColour(playerid, LoadingTD[playerid][1], 150);
+  PlayerTextDrawFont(playerid, LoadingTD[playerid][1], TEXT_DRAW_FONT_2);
+  PlayerTextDrawSetProportional(playerid, LoadingTD[playerid][1], true);
+}
+
+
+
+stock ShowTextDrawnLoading(playerid)
+{
+    EnterLoad[playerid] = true;
+    TogglePlayerControllable(playerid, false);
+    for (new i = 0; i < 2; i++)
+    {
+        PlayerTextDrawShow(playerid, LoadingTD[playerid][i]);
+    }
+}
+
+function HideTextDrawnLoading(playerid)
+{
+    EnterLoad[playerid] = false;
+    TogglePlayerControllable(playerid, true);
+    for (new i = 0; i < 2; i++)
+    {
+        PlayerTextDrawHide(playerid, LoadingTD[playerid][i]);
+    }
+}
+
+stock DeleteDoorE(doorId){
+  new a1 = DoorInfo[doorId][doorareaentrace];
+  new a2 = DoorInfo[doorId][doorareaexit];
+
+  DestroyDynamicArea(DoorInfo[doorId][doorareaentrace]);
+  DestroyDynamicArea(DoorInfo[doorId][doorareaexit]); 
+
+  DestroyDynamicPickup(DoorInfo[doorId][doorpickupentrace]);
+  DestroyDynamicPickup(DoorInfo[doorId][doorpickupexit]);
+
+  ClearAreaData(a1);
+  ClearAreaData(a2);
+
+  DoorInfo[doorId][doorcreated] = false;
+
+  CleanDoor(doorId);
+}
+
 cmd:crearpuerta(playerid, params[])
 {
   if (UserInfo[playerid][admin] < CMD_MODER_G)return SendError(playerid, NO_PERMISSION);
@@ -127,6 +210,7 @@ cmd:crearpuerta(playerid, params[])
     SendAdminChat(CMD_HELPER,stringBuffer);
     format(stringBuffer,sizeof stringBuffer, "Para completar la puerta usa " COMMANDBOLD"/editarpuerta"WHITE" %d", idDoor);
     SendInfo(playerid, stringBuffer);
+    InsertDoor(idDoor);
     //TODO: Add sql
   }else return SendError(playerid, "Ha ocurrido un error al buscar un id nuevo para la puerta");
   return 1;
