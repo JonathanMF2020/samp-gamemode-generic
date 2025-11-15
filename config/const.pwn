@@ -4,6 +4,7 @@
 #define INFO                "{C8C8C8}"
 #define COMMANDBOLD         "{00FFFF}"
 #define STAFF               "{3B82F6}"
+#define LEVELCOLOR          "{D9A236}"
 // Mysql Credentials
 #define MYSQL_DEBUG         true
 #define MYSQL_HOST          "localhost"
@@ -40,6 +41,8 @@
 #define MAX_LOG_LENGTH 256
 #define MAX_PATH 256
 #define MAX_DYNAMIC_AREAS 5000
+
+#define ONE_MINUTE 60000
 
 
 

@@ -32,12 +32,15 @@ function OnHashDone_Register(playerid){
     UserInfo[playerid][a] = SPAWN_A;
     UserInfo[playerid][sampVirtual] = SPAWN_VIRTUAL;
     UserInfo[playerid][sampInterior] = SPAWN_INTERIOR;
+    UserInfo[playerid][level] = 1;
+    UserInfo[playerid][exp] = 0;
+    UserInfo[playerid][expminutes] = 0;
     FormatDateString(UserInfo[playerid][createdAt], 45);
     mysql_format(database, stringScapeDatabase, sizeof stringScapeDatabase,
-    "INSERT INTO `%s` (`username`, `password`, `x`, `y`, `z`, `a`, `sampVirtual`, `sampInterior`, `createdAt`) VALUES ('%s', '%s', '%f', '%f', '%f', '%f', '%d', '%d', '%s')",
+    "INSERT INTO `%s` (`username`, `password`, `x`, `y`, `z`, `a`, `sampVirtual`, `sampInterior`, `createdAt`, `level`, `exp`) VALUES ('%s', '%s', '%f', '%f', '%f', '%f', '%d', '%d', '%s')",
     TABLE_USERS, UserInfo[playerid][username], hash,UserInfo[playerid][x],UserInfo[playerid][y],
     UserInfo[playerid][z],UserInfo[playerid][a],UserInfo[playerid][sampVirtual],UserInfo[playerid][sampInterior],
-    UserInfo[playerid][createdAt]);
+    UserInfo[playerid][createdAt], UserInfo[playerid][level], UserInfo[playerid][exp]);
     mysql_tquery(database, stringScapeDatabase, "OnPlayerRegister", "d", playerid);
 }
 
@@ -49,6 +52,8 @@ function OnPlayerRegister(playerid){
     SetPVarInt(playerid, T_CONNECTED, 1);
     SetSpawnInfo(playerid, NO_TEAM, 1, UserInfo[playerid][x], UserInfo[playerid][y], UserInfo[playerid][z], UserInfo[playerid][a], WEAPON_SAWEDOFF, 36, WEAPON_UZI, 150, WEAPON_FIST, 0);
     SpawnPlayer(playerid);
+    SetPlayerScore(playerid, UserInfo[playerid][level]);
+    CreateTimerOneMinute(playerid);
     SetTimerEx("HideTextDrawnLoading", LOADING_DURATION, false, "%d", playerid);
 }
 
@@ -69,7 +74,7 @@ function OnPlayerRegister(playerid){
 
  stock LoadAccount(playerid){
     mysql_format(database,stringScapeDatabase, sizeof stringScapeDatabase, "SELECT x,y,z,a,sampInterior,sampVirtual,createdAt,lastAt,lastVersion,admin\
-     ,keyDoor FROM `%s` WHERE `id` = '%d' LIMIT 1", TABLE_USERS, UserInfo[playerid][id]);
+     ,keyDoor,level,exp,expminutes FROM `%s` WHERE `id` = '%d' LIMIT 1", TABLE_USERS, UserInfo[playerid][id]);
     mysql_tquery(database, stringScapeDatabase, "MYSQL_IsLoading", "d", playerid);
  }
 
@@ -88,6 +93,9 @@ function OnPlayerRegister(playerid){
         cache_get_value_name(0, "lastVersion", UserInfo[playerid][lastVersion], 20);
         cache_get_value_name_int(0, "admin", UserInfo[playerid][admin]);
         cache_get_value_name_int(0, "keyDoor", UserInfo[playerid][keydoor]);
+        cache_get_value_name_int(0, "level", UserInfo[playerid][level]);
+        cache_get_value_name_int(0, "exp", UserInfo[playerid][exp]);
+        cache_get_value_name_int(0, "expminutes", UserInfo[playerid][expminutes]);
         SuccessLoadAccount(playerid);
         SetPVarInt(playerid, T_CONNECTED, 1);
     }else{
@@ -102,8 +110,10 @@ function SaveAccount(playerid){
     UserInfo[playerid][sampInterior] = GetPlayerInterior(playerid);
     UserInfo[playerid][sampVirtual] = GetPlayerVirtualWorld(playerid);
     FormatDateString(UserInfo[playerid][lastAt], 45);
-    mysql_format(database,stringScapeDatabase, sizeof stringScapeDatabase, "UPDATE `%s` SET `x` = '%f', `y` = '%f', `z` = '%f', `a` = '%f', `sampInterior` = '%d', `sampVirtual` = '%d', `lastAt` = '%s', `lastVersion` = '%s' WHERE `id` = '%d' LIMIT 1", 
-    TABLE_USERS, UserInfo[playerid][x], UserInfo[playerid][y], UserInfo[playerid][z], UserInfo[playerid][a], UserInfo[playerid][sampInterior], UserInfo[playerid][sampVirtual], UserInfo[playerid][lastAt],ServerInfo[version],UserInfo[playerid][id]);
+    mysql_format(database,stringScapeDatabase, sizeof stringScapeDatabase, "UPDATE `%s` SET `x` = '%f', `y` = '%f', `z` = '%f', `a` = '%f', `sampInterior` = '%d', `sampVirtual` = '%d', `lastAt` = '%s', `lastVersion` = '%s', \
+    `level` = '%d', `exp` = '%d', `expminutes` = '%d' WHERE `id` = '%d' LIMIT 1", 
+    TABLE_USERS, UserInfo[playerid][x], UserInfo[playerid][y], UserInfo[playerid][z], UserInfo[playerid][a], UserInfo[playerid][sampInterior], 
+    UserInfo[playerid][sampVirtual], UserInfo[playerid][lastAt],ServerInfo[version], UserInfo[playerid][level], UserInfo[playerid][exp], UserInfo[playerid][expminutes], UserInfo[playerid][id]);
     mysql_tquery(database, stringScapeDatabase);
 }
 

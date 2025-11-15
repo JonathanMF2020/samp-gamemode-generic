@@ -12,6 +12,9 @@ enum USER_ENUM{
     lastVersion[20],
     admin,
     keydoor,
+    level,
+    exp,
+    expminutes
 };
 new UserInfo[MAX_PLAYERS][USER_ENUM];
 
@@ -29,6 +32,9 @@ stock CleanUser(playerid){
     UserInfo[playerid][sampVirtual] = -1;
     UserInfo[playerid][admin] = 0;
     UserInfo[playerid][keydoor] = 0;
+    UserInfo[playerid][level] = 0;
+    UserInfo[playerid][exp] = 0;
+    UserInfo[playerid][expminutes] = 0;
     DeletePVar(playerid, T_CONNECTED);
 }
 
@@ -37,7 +43,8 @@ enum SERVER_ENUM{
     version[20],
     owner[MAX_PLAYER_NAME],
     status,
-    doorLength
+    doorLength,
+    doblexp
 };
 new ServerInfo[SERVER_ENUM];
 
@@ -45,6 +52,7 @@ stock CleanServer(){
     MemSet(ServerInfo[hostname], 0, 45);
     MemSet(ServerInfo[version], 0, 20);
     MemSet(ServerInfo[owner], 0, 24);
+    ServerInfo[doblexp] = 0;
     ServerInfo[version] = SERVER_STATUS_UNKNOWN;
 }
 

@@ -38,6 +38,7 @@ public OnPlayerDisconnect(playerid, reason){
     if(GetPVarInt(playerid,T_CONNECTED) == 1){
         SaveAccount(playerid);
     }
+    DestroyTimerOneMinute(playerid);
     DestroyNotificationTD(playerid);
     CleanUser(playerid);
     return 1;

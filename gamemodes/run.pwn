@@ -8,6 +8,7 @@ forward KEY:GetParseKey(playerid, action);
 #include <YSI/YSI_Coding/y_va>
 #include <samp_bcrypt>
 #include <YSI/YSI_Data/y_iterate>
+#include <samp-precise-timers>
 #include <Pawn.CMD>
 #include <sscanf2>
 #include <file>
@@ -37,6 +38,8 @@ forward KEY:GetParseKey(playerid, action);
 #include "../modules/area.pwn"
 #include "../modules/notify.pwn"
 #include "../modules/keys.pwn"
+#include "../modules/timers.pwn"
+#include "../modules/level.pwn"
 
 
 

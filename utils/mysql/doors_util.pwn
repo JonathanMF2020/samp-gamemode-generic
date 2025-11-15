@@ -118,7 +118,7 @@ function MYSQL_IsDoor(){
             cache_get_value_name_float(i, "exita", DoorInfo[i][doorexita]);
             cache_get_value_name_int(i, "exitinterior", DoorInfo[i][doorexitinterior]);
             cache_get_value_name_int(i, "exitvirtualworld", DoorInfo[i][doorexitvirtualworld]);
-            cache_get_value_name_int(i, "lock", DoorInfo[i][doorlock]);
+            cache_get_value_name_int(i, "lockDoor", DoorInfo[i][doorlock]);
             DoorInfo[i][doorcreated] = true;
             UpdateClientDoor(i);
         }

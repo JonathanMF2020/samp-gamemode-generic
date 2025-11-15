@@ -50,9 +50,10 @@ stock SendInfo(playerid, const text[]){
     return SendClientMessage(playerid, -1, stringBuffer);
 }
 
-stock SendAdminChat(level,const text[]){
+
+stock SendAdminChat(levelAdmin,const text[]){
     foreach (new i : Player){
-        if(UserInfo[i][admin] >= level){
+        if(UserInfo[i][admin] >= levelAdmin){
             format(stringBuffer, sizeof stringBuffer, STAFF"[Staff]"WHITE" %s", text);
             SendClientMessage(i, -1, stringBuffer);
         }

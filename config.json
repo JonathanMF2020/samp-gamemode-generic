@@ -99,7 +99,8 @@
             "mysql",
             "samp_bcrypt",
             "sscanf",
-            "streamer"
+            "streamer",
+            "samp_precise_timers"
         ],
         "main_scripts": [
             "run 1"
