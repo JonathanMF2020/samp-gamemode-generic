@@ -1,4 +1,3 @@
-new CountDoors = 0;
 
 stock LoadDoors(){
     mysql_format(database,stringScapeDatabase, sizeof stringScapeDatabase, 
@@ -89,11 +88,12 @@ stock UpdateDoorFloat(doorId, const fieldName[], Float:value)
 
 function OnDoorRegistered(doorId){
     DoorInfo[doorId][doorid] = cache_insert_id();
+    ServerInfo[doorLength]++;
 }
 
 function MYSQL_IsDoor(){
     new tickStart = GetTickCount();
-    CountDoors = 0;
+    ServerInfo[doorLength] = 0;
     new rows = 0;
     cache_get_row_count(rows);
     if(rows > 0){
@@ -122,9 +122,9 @@ function MYSQL_IsDoor(){
             DoorInfo[i][doorcreated] = true;
             UpdateClientDoor(i);
         }
-        CountDoors = max_to_load;
+        ServerInfo[doorLength] = max_to_load;
         new tickEnd = GetTickCount();
-        printf("[Server] Doors cargado exitosamente: %d(%d ms)", CountDoors, CalculateMs(tickStart,tickEnd));
+        printf("[Server] Doors cargado exitosamente: %d(%d ms)", ServerInfo[doorLength], CalculateMs(tickStart,tickEnd));
         if (rows > MAX_DOORS) {
             printf("[WARNING] Se encontraron %d puertas, pero solo se pudieron cargar %d (MAX_DOORS). Aumenta MAX_DOORS.", rows, MAX_DOORS);
         }

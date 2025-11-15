@@ -34,7 +34,8 @@ enum SERVER_ENUM{
     hostname[45],
     version[20],
     owner[MAX_PLAYER_NAME],
-    status
+    status,
+    doorLength
 };
 new ServerInfo[SERVER_ENUM];
 

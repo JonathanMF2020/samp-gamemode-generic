@@ -191,7 +191,7 @@ stock DeleteDoorE(doorId){
   ClearAreaData(a2);
 
   DoorInfo[doorId][doorcreated] = false;
-
+  ServerInfo[doorLength]--;
   CleanDoor(doorId);
 }
 
@@ -226,4 +226,70 @@ cmd:editarpuerta(playerid, params[]){
   ShowDialog(playerid,DIALOG_EDIT_DOOR);
   SendInfo(playerid, "Ejecutando editor de puertas");
   return 1;
+}
+
+cmd:puertaid(playerid, params[]){
+  if (UserInfo[playerid][admin] < CMD_MODER_G)return SendError(playerid, NO_PERMISSION);
+  new idDoor = DoorContext[playerid][dc_doorid];
+  if (idDoor == -1 || !DoorInfo[idDoor][doorcreated])
+        return SendError(playerid, "No estás cerca de ninguna puerta.");
+
+  new action = DoorContext[playerid][dc_action];
+  switch (action)
+  {
+      case AREA_DOOR_ENTRACE: format(stringBuffer, sizeof stringBuffer, "Estás en la "COMMANDBOLD"ENTRADA"WHITE" de la puerta ID: %d (%s).", idDoor, DoorInfo[idDoor][doorname]);
+      case AREA_DOOR_EXIT: format(stringBuffer, sizeof stringBuffer, "Estás en la "COMMANDBOLD"SALIDA"WHITE" de la puerta ID: %d (%s).", idDoor, DoorInfo[idDoor][doorname]);
+      default: format(stringBuffer, sizeof stringBuffer, "Puerta ID: %d (%s).", idDoor, DoorInfo[idDoor][doorname]);
+  }
+
+  SendInfo(playerid, stringBuffer);
+  return 1;
+}
+
+cmd:irpuerta(playerid, params[])
+{
+    if (UserInfo[playerid][admin] < CMD_MODER_G)
+        return SendError(playerid, NO_PERMISSION);
+
+    new idDoor;
+    new option[8];
+
+    if (sscanf(params, "ds[8]", idDoor, option))
+        return SendInfo(playerid, "Uso: /irpuerta [id] [entrada/salida]");
+
+    if (!DoorInfo[idDoor][doorcreated])
+        return SendError(playerid, "La puerta especificada no existe.");
+
+    if (!strcmp(option, "entrada", true))
+    {
+        SetPlayerPosEx(
+            playerid,
+            DoorInfo[idDoor][doorentracex],
+            DoorInfo[idDoor][doorentracey],
+            DoorInfo[idDoor][doorentracez],
+            DoorInfo[idDoor][doorentracea],
+            DoorInfo[idDoor][doorentraceinterior],
+            DoorInfo[idDoor][doorentracevirtualworld]
+        );
+    }
+    else if (!strcmp(option, "salida", true))
+    {
+        SetPlayerPosEx(
+            playerid,
+            DoorInfo[idDoor][doorexitx],
+            DoorInfo[idDoor][doorexity],
+            DoorInfo[idDoor][doorexitz],
+            DoorInfo[idDoor][doorexita],
+            DoorInfo[idDoor][doorexitinterior],
+            DoorInfo[idDoor][doorexitvirtualworld]
+        );
+    }
+    else
+    {
+        return SendError(playerid, "Opción inválida: usa entrada o salida.");
+    }
+
+    format(stringBuffer, sizeof stringBuffer, "Teletransportado a la %s de la puerta %d (%s).", option, idDoor, DoorInfo[idDoor][doorname]);
+    SendInfo(playerid, stringBuffer);
+    return 1;
 }
