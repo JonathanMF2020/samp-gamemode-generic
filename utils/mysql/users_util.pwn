@@ -68,8 +68,8 @@ function OnPlayerRegister(playerid){
  }
 
  stock LoadAccount(playerid){
-    mysql_format(database,stringScapeDatabase, sizeof stringScapeDatabase, "SELECT x,y,z,a,sampInterior,sampVirtual,createdAt,lastAt,lastVersion,admin \
-     FROM `%s` WHERE `id` = '%d' LIMIT 1", TABLE_USERS, UserInfo[playerid][id]);
+    mysql_format(database,stringScapeDatabase, sizeof stringScapeDatabase, "SELECT x,y,z,a,sampInterior,sampVirtual,createdAt,lastAt,lastVersion,admin\
+     ,keyDoor FROM `%s` WHERE `id` = '%d' LIMIT 1", TABLE_USERS, UserInfo[playerid][id]);
     mysql_tquery(database, stringScapeDatabase, "MYSQL_IsLoading", "d", playerid);
  }
 
@@ -87,6 +87,7 @@ function OnPlayerRegister(playerid){
         cache_get_value_name(0, "lastAt", UserInfo[playerid][lastAt], 45);
         cache_get_value_name(0, "lastVersion", UserInfo[playerid][lastVersion], 20);
         cache_get_value_name_int(0, "admin", UserInfo[playerid][admin]);
+        cache_get_value_name_int(0, "keyDoor", UserInfo[playerid][keydoor]);
         SuccessLoadAccount(playerid);
         SetPVarInt(playerid, T_CONNECTED, 1);
     }else{

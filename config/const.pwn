@@ -67,6 +67,8 @@ enum{
     DIALOG_EDIT_DOOR_EXIT_VIRTUAL,
     DIALOG_EDIT_DOOR_EXIT_INTERIOR,
     DIALOG_EDIT_DOOR_PICKUP,
+    DIALOG_EDIT_KEYS,
+    DIALOG_EDIT_KEYS_EDIT,
 }
 
 enum{
@@ -87,6 +89,16 @@ enum
 };
 
 
+enum{
+    INTERACTION_KEY_UNDEFINED,
+    INTERACTION_KEY_YES,
+    INTERACTION_KEY_NO,
+    INTERACTION_KEY_ENTER
+};
+
+enum{
+    KEYS_DOOR
+}
 
 new MySQL:database;
 new stringScapeDatabase[512];

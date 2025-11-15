@@ -104,7 +104,7 @@ public OnPlayerLeaveDynamicArea(playerid, areaid)
 
 public OnPlayerKeyStateChange(playerid, KEY:newkeys, KEY:oldkeys)
 {
-    if (PRESSED(KEY_SECONDARY_ATTACK)) //  = Y
+    if (PRESSED(GetParseKey(playerid, KEYS_DOOR)))
     {
         HandleDoorAction(playerid);
     }

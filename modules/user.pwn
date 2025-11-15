@@ -22,3 +22,8 @@ stock MigrationPlayer(playerid){
         format(UserInfo[playerid][lastVersion], 20, "%s", ServerInfo[version]);
     }
 }
+
+cmd:keys(playerid, params[]){
+    ShowDialog(playerid, DIALOG_EDIT_KEYS);
+    return 1;
+}

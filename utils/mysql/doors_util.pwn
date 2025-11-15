@@ -124,7 +124,7 @@ function MYSQL_IsDoor(){
         }
         ServerInfo[doorLength] = max_to_load;
         new tickEnd = GetTickCount();
-        printf("[Server] Doors cargado exitosamente: %d(%d ms)", ServerInfo[doorLength], CalculateMs(tickStart,tickEnd));
+        printf("[Server] Doors cargado exitosamente: %d(%d segundos)", ServerInfo[doorLength], CalculateMs(tickStart,tickEnd));
         if (rows > MAX_DOORS) {
             printf("[WARNING] Se encontraron %d puertas, pero solo se pudieron cargar %d (MAX_DOORS). Aumenta MAX_DOORS.", rows, MAX_DOORS);
         }

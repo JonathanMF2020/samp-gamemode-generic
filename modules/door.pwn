@@ -22,7 +22,7 @@ stock FindFreeDoorID()
 function OnPlayerEnterDoor(playerid, doorId)
 {
   if(DoorInfo[doorId][doorcreated] == false) return 0;
-  format(stringBuffer, sizeof stringBuffer, "Usa ~y~ENTER~w~ para ingresar al ~b~%s~w~.", DoorInfo[doorId][doorname]);
+  format(stringBuffer, sizeof stringBuffer, "Usa ~y~%s~w~ para ingresar al ~b~%s~w~.", DoorInfo[doorId][doorname], GetNameKey(UserInfo[playerid][keydoor], KEYS_DOOR));
   ShowNotification(playerid, stringBuffer, NOTIFICATION_INFO);
   DoorContext[playerid][dc_doorid] = doorId;
   DoorContext[playerid][dc_action] = 1; // ENTER
@@ -32,7 +32,8 @@ function OnPlayerEnterDoor(playerid, doorId)
 function OnPlayerExitDoor(playerid, doorId)
 {
   if(DoorInfo[doorId][doorcreated] == false) return 0;
-  ShowNotification(playerid, "Usa ~y~ENTER~w~ para salir al exterior.", NOTIFICATION_INFO);
+  format(stringBuffer, sizeof stringBuffer, "Usa ~y~%s~w~ para salir al exterior.", GetNameKey(UserInfo[playerid][keydoor], KEYS_DOOR));
+  ShowNotification(playerid, stringBuffer, NOTIFICATION_INFO);
   DoorContext[playerid][dc_doorid] = doorId;
   DoorContext[playerid][dc_action] = 2; // EXIT
   return 1;

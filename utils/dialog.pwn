@@ -163,6 +163,33 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
             UpdateDoorInt(dooridS, "pickupid", DoorInfo[dooridS][doorpickupid]);
             ShowDialog(playerid,DIALOG_EDIT_DOOR);
             UpdateClientDoor(dooridS);
+            return 1;
+        }
+        case DIALOG_EDIT_KEYS:{
+            if(!response) return 0;
+            switch(listitem){
+                case 0: {
+                    SetPVarInt(playerid, T_KEY_DOOR, KEYS_DOOR);
+                    ShowDialog(playerid, DIALOG_EDIT_KEYS_EDIT);
+                }
+            }
+            return 1;
+        }
+        case DIALOG_EDIT_KEYS_EDIT:{
+            if(!response){
+                ShowDialog(playerid, DIALOG_EDIT_KEYS);
+                return 1;
+            }
+            new typeKey = GetPVarInt(playerid, T_KEY_DOOR);
+            switch(typeKey){
+                case KEYS_DOOR:{
+                    UserInfo[playerid][keydoor] = listitem;
+                    UpdateAccountInt(playerid, "keyDoor", UserInfo[playerid][keydoor]);
+                    SendInfo(playerid, "Has actualizado la tecla de ingreso/salida de las puertas");
+                    ShowDialog(playerid, DIALOG_EDIT_KEYS);
+                }
+            }
+            return 1;
         }
         default: {
             SendError(playerid, "Code 01: Ha ocurrido un error intenta mas tarde");
@@ -224,6 +251,13 @@ stock ShowDialog(playerid, dialogid){
         }
         case DIALOG_EDIT_DOOR_PICKUP:{
             ShowPlayerDialog(playerid, dialogid, DIALOG_STYLE_INPUT, WHITE"Editor de puertas > Pickup", WHITE"Ingresa el nuevo pickup de esta puerta", "Aceptar", "Cancelar");
+        }
+        case DIALOG_EDIT_KEYS:{
+            format(stringBuffer, sizeof stringBuffer, WHITE"Ingreso a puertas: %s\n", GetNameKey(UserInfo[playerid][keydoor], KEYS_DOOR));
+            ShowPlayerDialog(playerid, dialogid, DIALOG_STYLE_LIST, WHITE"Editor de keys", stringBuffer, "Aceptar", "Cancelar");
+        }
+        case DIALOG_EDIT_KEYS_EDIT:{
+            ShowPlayerDialog(playerid, dialogid, DIALOG_STYLE_LIST, WHITE"Editor de keys", "Predeterminado\nY\nN\n\nEnter", "Aceptar", "Cancelar");
         }
         default: SendError(playerid, "Code 01: Ha ocurrido un error intenta mas tarde");
     }

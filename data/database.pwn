@@ -10,7 +10,8 @@ enum USER_ENUM{
     createdAt[45],
     lastAt[45],
     lastVersion[20],
-    admin
+    admin,
+    keydoor,
 };
 new UserInfo[MAX_PLAYERS][USER_ENUM];
 
@@ -27,6 +28,7 @@ stock CleanUser(playerid){
     UserInfo[playerid][sampInterior] = -1;
     UserInfo[playerid][sampVirtual] = -1;
     UserInfo[playerid][admin] = 0;
+    UserInfo[playerid][keydoor] = 0;
     DeletePVar(playerid, T_CONNECTED);
 }
 

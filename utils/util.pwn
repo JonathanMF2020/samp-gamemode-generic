@@ -13,7 +13,11 @@ stock CountChars(const string[], const ch[2]) {
 }
 
 stock CalculateMs(tickStart, tickEnd){
-    return tickEnd - tickStart;
+    new value = tickEnd - tickStart;
+    if(value >= 30){
+        print("[WARNING] Este calculo se ha demorado bastante, favor de optimizar esto");
+    }
+    return value;
 }
 
 stock GetPlayerNameEx(playerid)

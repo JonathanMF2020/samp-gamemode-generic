@@ -1,5 +1,8 @@
 #include <open.mp>
 
+forward KEY:GetKey(value, action);
+forward KEY:GetParseKey(playerid, action);
+
 //Libs
 #include <a_mysql>
 #include <YSI/YSI_Coding/y_va>
@@ -33,6 +36,7 @@
 #include "../modules/administration.pwn"
 #include "../modules/area.pwn"
 #include "../modules/notify.pwn"
+#include "../modules/keys.pwn"
 
 
 
