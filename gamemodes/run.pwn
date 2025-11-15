@@ -9,7 +9,6 @@
 #include <sscanf2>
 #include <file>
 #include <streamer>
-#include <confirm-box>
 
 // Configuration
 #include "../config/const.pwn"

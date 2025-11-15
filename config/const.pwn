@@ -28,6 +28,7 @@
 #define SERVER_STATUS_SUCCESS    1
 #define SERVER_STATUS_ERROR      2
 #define SERVER_STATUS_UNKNOWN    0
+#define NOTIF_DURATION 3000
 
 #define RANGE_DOOR 5.0
 
@@ -37,6 +38,8 @@
 #define MAX_LOG_LENGTH 256
 #define MAX_PATH 256
 #define MAX_DYNAMIC_AREAS 5000
+
+
 
 #define NO_PERMISSION "No tienes permiso para usar este comando"
 
@@ -80,6 +83,8 @@ enum
     CMD_MODER_G,       // 5
     CMD_ADMIN          // 6 (nivel más alto)
 };
+
+
 
 new MySQL:database;
 new stringScapeDatabase[512];

@@ -1,3 +1,9 @@
+enum E_DOOR_CONTEXT {
+    dc_doorid,
+    dc_action    // 0 = none, 1 = enter, 2 = exit
+};
+new DoorContext[MAX_PLAYERS][E_DOOR_CONTEXT];
+
 stock FindFreeDoorID()
 {
     for (new i = 0; i < MAX_DOORS; i++)
@@ -12,12 +18,18 @@ stock FindFreeDoorID()
 
 function OnPlayerEnterDoor(playerid, doorId)
 {
-  //ShowPlayerConfirmBox(playerid, DeagleBox, "Are you sure you want to get a Desert Eagle?", "Desert Eagle"); https://github.com/denisbranisteanu/samp-confirm-box
+  format(stringBuffer, sizeof stringBuffer, "Usa ~y~ENTER~w~ para ingresar al ~b~%s~w~.", DoorInfo[doorId][doorname]);
+  ShowNotification(playerid, stringBuffer, NOTIFICATION_INFO);
+  DoorContext[playerid][dc_doorid] = doorId;
+  DoorContext[playerid][dc_action] = 1; // ENTER
+  
 }
 
 function OnPlayerExitDoor(playerid, doorId)
 {
-
+  ShowNotification(playerid, "Usa ~y~ENTER~w~ para salir al exterior.", NOTIFICATION_INFO);
+  DoorContext[playerid][dc_doorid] = doorId;
+  DoorContext[playerid][dc_action] = 2; // EXIT
 }
 
 stock UpdateClientDoor(idDoor){
@@ -52,6 +64,52 @@ stock UpdateClientDoor(idDoor){
 
     DoorInfo[idDoor][doorpickupexit] = CreateDynamicPickup(DoorInfo[idDoor][doorpickupid], 1, DoorInfo[idDoor][doorexitx],DoorInfo[idDoor][doorexity],
         DoorInfo[idDoor][doorexitz],DoorInfo[idDoor][doorexitvirtualworld], DoorInfo[idDoor][doorexitinterior], -1, STREAMER_PICKUP_SD);
+}
+
+stock HandleDoorAction(playerid)
+{
+    new doorId = DoorContext[playerid][dc_doorid];
+    new action = DoorContext[playerid][dc_action];
+
+    if (action == 0) return 1; // No hay nada que hacer
+
+    switch (action)
+    {
+        case 1: // ENTER
+        {
+            EnterDoor(playerid, doorId);
+        }
+        case 2: // EXIT
+        {
+            ExitDoor(playerid, doorId);
+        }
+    }
+
+    return 1;
+}
+
+stock EnterDoor(playerid, doorId){
+
+}
+
+stock ExitDoor(playerid, doorId){
+  
+}
+
+stock ClearDoorContext(playerid)
+{
+    DoorContext[playerid][dc_action] = 0;
+    DoorContext[playerid][dc_doorid] = -1;
+}
+
+function OnPlayerLeftDoorArea(playerid, doorId){
+  ClearDoorContext(playerid);
+  HideNotification(playerid);
+}
+
+function OnPlayerLeftDoorExitArea(playerid, doorId){
+  ClearDoorContext(playerid);
+  HideNotification(playerid);
 }
 
 cmd:crearpuerta(playerid, params[])
